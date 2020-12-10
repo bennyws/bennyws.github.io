@@ -1,8 +1,12 @@
-x, z = 10, 300
-y = 'hello'
-n = None
+h = int(input())
 
-print(type(y))
-print(type(x))
-print(z)
-print(type(n))
+for i in range(h):
+    for j in range(h * 2 - 1):
+        if j < h - i - 1:
+            print(' ', end='')
+        elif j >= h + i:
+            print(' ', end='')
+        else:
+            print('*', end='')
+    print()
+

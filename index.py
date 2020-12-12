@@ -1,12 +1,27 @@
-h = int(input())
+# index.py
 
-for i in range(h):
-    for j in range(h * 2 - 1):
-        if j < h - i - 1:
-            print(' ', end='')
-        elif j >= h + i:
-            print(' ', end='')
-        else:
-            print('*', end='')
+col, row = map(int, input().split())
+
+matrix = []
+for i in range(row):
+    matrix.append(list(input()))
+
+for i in range(col):
+    for j in range(row):
+        if matrix[i][j] == '.':
+            count = 0
+            for m in range(i-1, i+2):
+                if m < 0 or m >= col:
+                    continue
+                for n in range(j-1, j+2):
+                    if n < 0 or n >= row:
+                        continue
+                    if matrix[m][n] == '*':
+                        count += 1
+            matrix[i].pop(j)
+            matrix[i].insert(j, count)
+
+for i in range(col):
+    for j in matrix[i]:
+        print(j, end="")
     print()
-

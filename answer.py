@@ -1,12 +1,17 @@
 # answer.py
-# 10250 ACM 호텔
+# 2798 블랙잭
 
-N = int(input())  # 반복횟수 입력
+n, m = map(int, input().split())  # n : 카드의 개수, m : 기준이 될 수
 
-for i in range(N):
-    h, w, n = map(int, input().split())  # h : 높이, w : 호실개수, n : 손님번호
+a = list(map(int, (input().split())))  # 카드를 담을 리스트
 
-    if n % h == 0:  # n이 h의 배수일 경우
-        print(h * 100 + n // h)
-    else:
-        print(n % h * 100 + n // h + 1)
+maxsum = 0  # 최댓값을 담을 변수
+
+for i in range(0, n-2):
+    for j in range(i+1, n-1):
+        for k in range(j+1, n):
+            csum = a[i] + a[j] + a[k]
+            if maxsum < csum and csum <= m:
+                maxsum = csum
+
+print(maxsum)

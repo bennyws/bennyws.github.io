@@ -1,16 +1,13 @@
 # answer.py
-# 2609 최대공약수와 최소공배수
+# 2751 수 정렬하기 2
 
+from sys import stdin, stdout
 
-def GCD(a, b):
-    if b == 0:
-        return a
-    else:
-        return GCD(b, a % b)
+n = int(input())
+l = []
 
+for i in range(n):
+    l.append(int(stdin.readline()))
 
-a, b = map(int, input().split())
-
-d = GCD(a, b)
-
-print(d, int(a * b / d), end='\n')
+for i in sorted(l):
+    stdout.write(str(i)+'\n')

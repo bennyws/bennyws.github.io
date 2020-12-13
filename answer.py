@@ -1,22 +1,16 @@
 # answer.py
-# 1181 단어 정렬
+# 2609 최대공약수와 최소공배수
 
-from queue import PriorityQueue
 
-que = PriorityQueue()
+def GCD(a, b):
+    if b == 0:
+        return a
+    else:
+        return GCD(b, a % b)
 
-L = []
 
-N = int(input())  # 단어의 개수
+a, b = map(int, input().split())
 
-for i in range(N):  # 단어 입력
-    a = input()
-    L.append(a)
+d = GCD(a, b)
 
-sL = list(set(L)) # 중복 제거
-
-for i in range(len(sL)):
-    que.put((len(sL[i]), sL[i]))
-
-for i in range(len(sL)):
-    print(que.get()[1])
+print(d, int(a * b / d), end='\n')

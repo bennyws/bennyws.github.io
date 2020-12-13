@@ -1,38 +1,30 @@
 # answer.py
 # 1920 수 찾기
 
+import sys
+input = sys.stdin.readline
 
-def Binary_Search(L, N):
-    a = len(L)//2
-    if N > L[a]:
-        if(len(L) == 1):
-            return False
-        L = L[a+1:]
-        return Binary_Search(L, N)
-    elif N < L[a]:
-        if(len(L) == 1):
-            return False
-        L = L[:a]
-        return Binary_Search(L, N)
+
+def Binary_Search(L, N, low, high):
+    if low > high:
+        return False
+    mid = (low + high) // 2
+
+    if N > L[mid]:
+        return Binary_Search(L, N, mid + 1, high)
+    elif N < L[mid]:
+        return Binary_Search(L, N, low, mid - 1)
     else:
         return True
 
 
-a = [17, 28, 43, 67, 88, 92, 100]
-print(Binary_Search(a, 67))
-
-
-
-"""import sys
-input = sys.stdin.readline
-
-input()
-A = set(map(int, input().split()))
-input()
+n = int(input())
+A = sorted(list(map(int, input().split())))
+m = input()
 B = list(map(int, input().split()))
 
 for i in B:
-    if i in A:
+    if Binary_Search(A, i, 0, n-1):
         sys.stdout.write('1\n')
     else:
-        sys.stdout.write('0\n')"""
+        sys.stdout.write('0\n')

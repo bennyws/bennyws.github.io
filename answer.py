@@ -1,20 +1,14 @@
 # answer.py
-# 1978 소수 찾기
+# 2164 카드2
 
 import sys
 
-input()
+n = int(sys.stdin.readline())
 
-a = map(int, sys.stdin.readline().split())
-count = 0
-for i in a:
-    tmp = 0
-    if i == 1:
-        continue
-    for j in range(2, i):
-        if i % j == 0:
-            tmp += 1
-    if tmp == 0:
-        count += 1
+a = [i + 1 for i in range(n)]
 
-print(count)
+while len(a) > 1:
+    for i in range(len(a) - 1, -1, -2):
+        del a[i]
+
+print(a[0])

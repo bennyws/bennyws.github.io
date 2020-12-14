@@ -1,14 +1,25 @@
 # answer.py
-# 2164 카드2
+# 9012 괄호
 
 import sys
 
-n = int(sys.stdin.readline())
+input = sys.stdin.readline
 
-a = [i + 1 for i in range(n)]
+n = int(input())
 
-while len(a) > 1:
-    for i in range(len(a) - 1, -1, -2):
-        del a[i]
-
-print(a[0])
+for i in range(n):
+    a = input()
+    stack = 0
+    for j in range(len(a)):
+        if a[j] == '(':
+            stack += 1
+        elif a[j] == ')':
+            stack -= 1
+        else:
+            continue
+        if(stack < 0):
+            break
+    if stack == 0:
+        print('YES')
+    else:
+        print('NO')

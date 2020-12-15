@@ -1,22 +1,68 @@
 # answer.py
-# 10816 숫자 카드 2
+# 10828 스택
 
 
 import time
-start = time.time()
+
+# ---------------------------
+
 
 import sys
-from collections import Counter
 input = sys.stdin.readline
 
 
-_ = input()
-a = input().split()
-_ = input()
-b = input().split()
+def push(L, n):
+    L.append(n)
+    return L
 
 
-c = Counter(a)
-print(' '.join(f'{c[m]}' if m in c else '0' for m in b))
+def isEmpty(L):
+    if len(L) == 0:
+        return True
+    else:
+        return False
 
+
+def pop(L):
+    if isEmpty(L):
+        print(-1)
+        return L
+    else:
+        print(L[-1])
+        return L[:-1]
+
+
+def size(L):
+    print(len(L))
+    return
+
+
+def top(L):
+    if isEmpty(L):
+        print(-1)
+    else:
+        print(L[-1])
+    return
+
+
+n = int(input())
+L = []
+start = time.time()
+for i in range(n):
+    a = input().split()
+    if a[0] == 'push':
+        L = push(L, a[1])
+    elif a[0] == 'pop':
+        L = pop(L)
+    elif a[0] == 'size':
+        size(L)
+    elif a[0] == 'empty':
+        if isEmpty(L):
+            print('1')
+        else:
+            print('0')
+    else:  # top
+        top(L)
+
+# ---------------------------
 print("time :", time.time() - start)

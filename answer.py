@@ -1,20 +1,21 @@
 # answer.py
-# 10845 큐
+# 10866 덱
 
-
-import time
-start = time.time()
 # ---------------------------
 
+import time
 import sys
 input = sys.stdin.readline
 
 
-class Queue:
+class Deque:
     def __init__(self):
         self.L = []
 
-    def push(self, n):
+    def push_front(self, n):
+        self.L.insert(0, n)
+
+    def push_back(self, n):
         self.L.append(n)
 
     def isEmpty(self):
@@ -23,52 +24,64 @@ class Queue:
         else:
             return False
 
-    def pop(self):
+    def pop_front(self):
         if self.isEmpty():
-            print(-1)
+            sys.stdout.write('-1\n')
         else:
-            print(self.L[0])
+            sys.stdout.write(str(self.L[0]) + '\n')
             self.L = self.L[1:]
 
+    def pop_back(self):
+        if self.isEmpty():
+            sys.stdout.write('-1\n')
+        else:
+            sys.stdout.write(str(self.L[-1]) + '\n')
+            self.L = self.L[:-1]
+
     def size(self):
-        print(len(self.L))
+        sys.stdout.write(str(len(self.L)) + '\n')
 
     def empty(self):
         if self.isEmpty():
-            print('1')
+            sys.stdout.write('1\n')
         else:
-            print('0')
+            sys.stdout.write('0\n')
 
     def front(self):
         if self.isEmpty():
-            print(-1)
+            sys.stdout.write('-1\n')
         else:
-            print(self.L[0])
+            sys.stdout.write(str(self.L[0]) + '\n')
 
     def back(self):
         if self.isEmpty():
-            print(-1)
+            sys.stdout.write('-1\n')
         else:
-            print(self.L[-1])
+            sys.stdout.write(str(self.L[-1]) + '\n')
 
 
 n = int(input())
-que = Queue()
+start = time.time()
+deq = Deque()
 
 for i in range(n):
     a = input().split()
-    if a[0] == 'push':
-        que.push(a[1])
-    elif a[0] == 'pop':
-        que.pop()
+    if a[0] == 'push_front':
+        deq.push_front(int(a[1]))
+    elif a[0] == 'push_back':
+        deq.push_back(int(a[1]))
+    elif a[0] == 'pop_front':
+        deq.pop_front()
+    elif a[0] == 'pop_back':
+        deq.pop_back()
     elif a[0] == 'size':
-        que.size()
+        deq.size()
     elif a[0] == 'empty':
-        que.empty()
+        deq.empty()
     elif a[0] == 'front':
-        que.front()
+        deq.front()
     else:  # back
-        que.back()
+        deq.back()
 
 # ---------------------------
 print("time :", time.time() - start)

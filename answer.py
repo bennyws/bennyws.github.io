@@ -10,57 +10,65 @@ input = sys.stdin.readline
 start = time.time()
 
 
-def judge_front(stand, S):
-    count = 0
-    string = S.copy()
-    if stand == 'B':
-        if string[0] != 'B':
-            count += 1
-            string[0] = 'B'
-    else:  # stand == 'W'
-        if string[0] != 'W':
-            count += 1
-            string[0] = 'W'
+class Set():
+    def __init__(self):
+        self.S = set()
 
-    for i in range(7):
-        if string[i] != string[i+1]:
-            continue
+    def isIn(self, x):
+        if x in self.S:
+            return True
         else:
-            count += 1
-            if string[i] == 'B':
-                string[i+1] = 'W'
-            else:
-                string[i+1] = 'B'
+            return False
 
-    return count
+    def add(self, x):
+        self.S.add(x)
+
+    def remove(self, x):
+        self.S.discard(x)
+
+    def check(self, x):
+        if self.isIn(x):
+            sys.stdout.write('1\n')
+        else:
+            sys.stdout.write('0\n')
+
+    def toggle(self, x):
+        if self.isIn(x):
+            self.remove(x)
+        else:
+            self.add(x)
+
+    def s_all(self):
+        self.S = set(i+1 for i in range(20))
+
+    def empty(self):
+        self.S.clear()
 
 
-def count_board(L):
-    caseB = 0
-    caseW = 0
-    for i in range(0, 8, 2):
-        caseB += judge_front('B', L[i])
-        caseB += judge_front('W', L[i+1])
-        caseW += judge_front('W', L[i])
-        caseW += judge_front('B', L[i+1])
-    return min(caseB, caseW)
+def main():
+    M = int(input())
+    S = Set()
+    for _ in range(M):
+        a = input().split()
+        cmd = a[0]
+        if len(a) == 2:
+            x = int(a[1])
+
+        if cmd == 'add':
+            S.add(x)
+        elif cmd == 'remove':
+            S.remove(x)
+        elif cmd == 'check':
+            S.check(x)
+        elif cmd == 'toggle':
+            S.toggle(x)
+        elif cmd == 'all':
+            S.s_all()
+        else:  # cmd == 'empty'
+            S.empty()
 
 
-N, M = map(int, input().split())
-a = []
-start = time.time()
-for _ in range(N):
-    a.append(list(input().rstrip('\n')))
-
-result = []
-for j in range(M-7):
-    tmp = []
-    for k in range(N):
-        tmp.append(a[k][j:j+8])
-    for i in range(N-7):
-        result.append(count_board(tmp[i:i+8]))
-
-print(min(result))
+main()
 
 # ---------------------------
 print("time :", time.time() - start)

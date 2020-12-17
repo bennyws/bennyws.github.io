@@ -1,5 +1,5 @@
 # answer.py
-# 1620 나는야 포켓몬 마스터 이다솜
+# 1764 듣보잡
 
 # ---------------------------
 
@@ -12,20 +12,20 @@ start = time.time()
 
 def main():
     n, m = map(int, input().split())
-    p_list = []
-    p_dict = {}
-    append = p_list.append
+    a = set()
+    b = set()
+
     for i in range(n):
-        name = input().strip()
-        append(name)
-        p_dict[name] = i+1
+        a.add(input().strip())
 
     for i in range(m):
-        q = input().strip()
-        if q.isalpha():
-            sys.stdout.write(str(p_dict[q])+'\n')
-        else:
-            sys.stdout.write(p_list[int(q)-1]+'\n')
+        b.add(input().strip())
+
+    L = a & b
+
+    print(len(L), sorted(L))
+    for i in sorted(L):
+        print(i)
 
 
 main()

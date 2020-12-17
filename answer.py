@@ -7,37 +7,31 @@ import sys
 input = sys.stdin.readline
 
 
-zero = 0
-one = 0
-
-
 def fibonacci(n):
-    global zero
-    global one
-    if n == 0:
-        zero += 1
-        return
-    elif n == 1:
-        one += 1
-        return
-    elif n == 2:
-        zero += 2
-        one += 1
+    a = 1
+    b = 1
+    if n == 2:
+        return a, b
     else:
-        fibonacci(n-1)
-        fibonacci(n-2)
-        return
+        for _ in range(n-2):
+            tmp = a + b
+            a = b
+            b = tmp
+        return a, b
 
 
 def main():
     n = int(input())
-    global zero
-    global one
-    for i in range(n):
-        zero = 0
-        one = 0
-        fibonacci(int(input()))
-        print(zero, one)
+
+    for _ in range(n):
+        num = int(input())
+        if num == 0:
+            print('1 0')
+        elif num == 1:
+            print('0 1')
+        else:
+            a, b = fibonacci(num)
+            print(a, b)
 
 
 main()

@@ -3,32 +3,36 @@
 
 # ---------------------------
 
-import time
 import sys
 input = sys.stdin.readline
 
-start = time.time()
+
+class Number():
+    def __init__(self):
+        self.zero = 0
+        self.one = 0
+
+    def fibonacci(self, n):
+        if n == 0:
+            self.zero += 1
+            return 0
+        elif n == 1:
+            self.one += 1
+            return 1
+        else:
+            return self.fibonacci(n-1) + self.fibonacci(n-2)
+
+    def print_num(self):
+        print(self.zero, self.one)
 
 
 def main():
-    n, m = map(int, input().split())
-    a = set()
-    b = set()
+    n = int(input())
 
     for i in range(n):
-        a.add(input().strip())
-
-    for i in range(m):
-        b.add(input().strip())
-
-    L = a & b
-
-    print(len(L), sorted(L))
-    for i in sorted(L):
-        print(i)
+        num = Number()
+        num.fibonacci(int(input()))
+        num.print_num()
 
 
 main()
-
-# ---------------------------
-print("time :", time.time() - start)

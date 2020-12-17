@@ -1,5 +1,5 @@
 # answer.py
-# 1764 듣보잡
+# 1003 피보나치 함수
 
 # ---------------------------
 
@@ -20,7 +20,7 @@ class Number():
             self.one += 1
             return 1
         else:
-            return self.fibonacci(n-1) + self.fibonacci(n-2)
+            self.fibonacci(n-1) + self.fibonacci(n-2)
 
     def print_num(self):
         print(self.zero, self.one)

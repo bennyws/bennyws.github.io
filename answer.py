@@ -1,5 +1,5 @@
 # answer.py
-# 1018 체스판 다시 칠하기
+# 1620 나는야 포켓몬 마스터 이다솜
 
 # ---------------------------
 
@@ -10,62 +10,22 @@ input = sys.stdin.readline
 start = time.time()
 
 
-class Set():
-    def __init__(self):
-        self.S = set()
-
-    def isIn(self, x):
-        if x in self.S:
-            return True
-        else:
-            return False
-
-    def add(self, x):
-        self.S.add(x)
-
-    def remove(self, x):
-        self.S.discard(x)
-
-    def check(self, x):
-        if self.isIn(x):
-            sys.stdout.write('1\n')
-        else:
-            sys.stdout.write('0\n')
-
-    def toggle(self, x):
-        if self.isIn(x):
-            self.remove(x)
-        else:
-            self.add(x)
-
-    def s_all(self):
-        self.S = set(i+1 for i in range(20))
-
-    def empty(self):
-        self.S.clear()
-
-
 def main():
-    M = int(input())
-    S = Set()
-    for _ in range(M):
-        a = input().split()
-        cmd = a[0]
-        if len(a) == 2:
-            x = int(a[1])
+    n, m = map(int, input().split())
+    p_list = []
+    p_dict = {}
+    append = p_list.append
+    for i in range(n):
+        name = input().strip()
+        append(name)
+        p_dict[name] = i+1
 
-        if cmd == 'add':
-            S.add(x)
-        elif cmd == 'remove':
-            S.remove(x)
-        elif cmd == 'check':
-            S.check(x)
-        elif cmd == 'toggle':
-            S.toggle(x)
-        elif cmd == 'all':
-            S.s_all()
-        else:  # cmd == 'empty'
-            S.empty()
+    for i in range(m):
+        q = input().strip()
+        if q.isalpha():
+            sys.stdout.write(str(p_dict[q])+'\n')
+        else:
+            sys.stdout.write(p_list[int(q)-1]+'\n')
 
 
 main()

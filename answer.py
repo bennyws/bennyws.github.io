@@ -7,32 +7,37 @@ import sys
 input = sys.stdin.readline
 
 
-class Number():
-    def __init__(self):
-        self.zero = 0
-        self.one = 0
+zero = 0
+one = 0
 
-    def fibonacci(self, n):
-        if n == 0:
-            self.zero += 1
-            return 0
-        elif n == 1:
-            self.one += 1
-            return 1
-        else:
-            self.fibonacci(n-1) + self.fibonacci(n-2)
 
-    def print_num(self):
-        print(self.zero, self.one)
+def fibonacci(n):
+    global zero
+    global one
+    if n == 0:
+        zero += 1
+        return
+    elif n == 1:
+        one += 1
+        return
+    elif n == 2:
+        zero += 2
+        one += 1
+    else:
+        fibonacci(n-1)
+        fibonacci(n-2)
+        return
 
 
 def main():
     n = int(input())
-
+    global zero
+    global one
     for i in range(n):
-        num = Number()
-        num.fibonacci(int(input()))
-        num.print_num()
+        zero = 0
+        one = 0
+        fibonacci(int(input()))
+        print(zero, one)
 
 
 main()

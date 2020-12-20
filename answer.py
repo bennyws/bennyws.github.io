@@ -1,5 +1,5 @@
 # answer.py
-# 1003 피보나치 함수
+# 1463 1로 만들기
 
 # ---------------------------
 
@@ -7,31 +7,20 @@ import sys
 input = sys.stdin.readline
 
 
-def fibonacci(n):
-    a = 1
-    b = 1
-    if n == 2:
-        return a, b
-    else:
-        for _ in range(n-2):
-            tmp = a + b
-            a = b
-            b = tmp
-        return a, b
-
-
 def main():
     n = int(input())
 
-    for _ in range(n):
-        num = int(input())
-        if num == 0:
-            print('1 0')
-        elif num == 1:
-            print('0 1')
-        else:
-            a, b = fibonacci(num)
-            print(a, b)
+    dp = [0 for _ in range(n+1)]
+    for i in range(2, n+1):
+        dp[i] = dp[i-1] + 1
+
+        if i % 2 == 0 and dp[i // 2] < dp[i-1]:
+            dp[i] = dp[i // 2] + 1
+        elif i % 3 == 0 and dp[i // 3] < dp[i-1]:
+            dp[i] = dp[i // 3] + 1
+
+    print(dp[n])
 
 
 main()
+

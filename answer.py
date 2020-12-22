@@ -3,21 +3,22 @@
 
 # ---------------------------
 
+import heapq
 import sys
 input = sys.stdin.readline
 
 
 def main():
-    dp = [1, 2, 4]
-
-    for i in range(3, 12):
-        dp.append(dp[i-3] + dp[i-2] + dp[i-1])
-
     n = int(input())
+    total = 0
 
-    for _ in range(n):
-        num = int(input())
-        print(dp[num-1])
+    q = list(map(int, input().split()))
+    heapq.heapify(q)
+
+    for i in range(n, 0, -1):
+        total += i * heapq.heappop(q)
+
+    print(total)
 
 
 main()

@@ -1,24 +1,19 @@
 # answer.py
-# 9095 1, 2, 3 더하기
+# 11399 ATM
 
 # ---------------------------
 
-import heapq
 import sys
 input = sys.stdin.readline
 
 
 def main():
+    a = [1, 2]
+
     n = int(input())
-    total = 0
-
-    q = list(map(int, input().split()))
-    heapq.heapify(q)
-
-    for i in range(n, 0, -1):
-        total += i * heapq.heappop(q)
-
-    print(total)
+    for i in range(n-2):
+        a.append(sum(a[-2:]))
+    print(a[n-1] % 10007)
 
 
 main()

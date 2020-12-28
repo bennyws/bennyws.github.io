@@ -1,15 +1,20 @@
 # answer.py
-# 3-3 숫자 카드 게임
+# 3-4 1이 될 때까지
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-a = []
-n, m = map(int, input().split())
+count = 0
 
-for _ in range(n):
-    a.append(min(list(map(int, input().split()))))
+n, k = map(int, input().split())
 
-print(max(a))
+while n > 1:
+    count += n - (k * (n//k))
+    n = k * (n//k)
+
+    n /= k
+    count += 1
+
+print(int(count))

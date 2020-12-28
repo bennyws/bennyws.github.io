@@ -1,20 +1,30 @@
 # answer.py
-# 3-4 1이 될 때까지
+# 4-1 상하좌우
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-count = 0
+x, y = 1, 1
 
-n, k = map(int, input().split())
+n = int(input())
+order = input().split()
 
-while n > 1:
-    count += n - (k * (n//k))
-    n = k * (n//k)
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+move_types = ['L', 'R', 'U', 'D']
 
-    n /= k
-    count += 1
+for direction in order:
+    for i in range(len(move_types)):
+        if move_types[i] == direction:
+            nx = x + dx[i]
+            ny = y + dy[i]
 
-print(int(count))
+    if nx < 1 or ny < 1 or nx > n or ny > n:
+        continue
+
+    x = nx
+    y = ny
+
+print(x, y)

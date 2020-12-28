@@ -1,20 +1,21 @@
 # answer.py
-# 3-1 거스름돈
+# 3-2 큰 수의 법칙
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
+n, m, k = map(int, input().split())
+a = list(map(int, input().split()))
 
-coin_list = [500, 100, 50, 10]
-count = 0
+a.sort()
+first = a[-1]
+second = a[-2]
+count = m // (k+1)
+sum = 0
 
-n = int(input())
+sum += first * (m - count)
+sum += second * count
 
-for coin in coin_list:
-    count += n // coin
-    n %= coin
-
-print(count)
-
+print(sum)

@@ -1,21 +1,15 @@
 # answer.py
-# 3-2 큰 수의 법칙
+# 3-3 숫자 카드 게임
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-n, m, k = map(int, input().split())
-a = list(map(int, input().split()))
+a = []
+n, m = map(int, input().split())
 
-a.sort()
-first = a[-1]
-second = a[-2]
-count = m // (k+1)
-sum = 0
+for _ in range(n):
+    a.append(min(list(map(int, input().split()))))
 
-sum += first * (m - count)
-sum += second * count
-
-print(sum)
+print(max(a))

@@ -1,30 +1,18 @@
 # answer.py
-# 4-1 상하좌우
+# 4-2 시각
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-x, y = 1, 1
-
 n = int(input())
-order = input().split()
+count = 0
 
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
-move_types = ['L', 'R', 'U', 'D']
+for hour in range(n+1):
+    if hour % 10 == 3:
+        count += 3600
+    else:
+        count += 1575  # 15 * 60 + (60-15) * 15  # 03 13 23 30~39 43 53
 
-for direction in order:
-    for i in range(len(move_types)):
-        if move_types[i] == direction:
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-    if nx < 1 or ny < 1 or nx > n or ny > n:
-        continue
-
-    x = nx
-    y = ny
-
-print(x, y)
+print(count)

@@ -1,42 +1,45 @@
 # answer.py
-# 4-4 게임 개발
+# 5-3 음료수 얼려 먹기
 
 # ---------------------------
 
+from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-from collections import deque
-
-
-def bfs(graph, start, visited):
-    queue = deque([start])
-
-    visited[start] = True
+def bfs(ice, x, y, visited):
+    global n, m
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    queue = deque([(x, y)])
+    visited[x][y] = True
 
     while queue:
-        v = queue.popleft()
-        print(v, end=' ')
+        a, b = queue.popleft()
 
-        for i in graph[v]:
-            if not visited[i]:
-                queue.append(i)
-                visited[i] = True
+        for i in range(4):
+            nx = a + dx[i]
+            ny = b + dy[i]
+            if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                continue
+            elif not visited[nx][ny] and ice[nx][ny] == 0:
+                queue.append((nx, ny))
+                visited[nx][ny] = True
 
 
-graph = [
-    [],
-    [2, 3, 8],
-    [1, 7],
-    [1, 4, 5],
-    [3, 5],
-    [3, 4],
-    [7],
-    [2, 6, 8],
-    [1, 7]
-]
+n, m = map(int, input().split())  # n : 세로길이 m : 가로길이
+ice = []
+visited = [[False] * m for _ in range(n)]
+count = 0
 
-visited = [False] * 9
+for _ in range(n):
+    ice.append(list(map(int, input().rstrip())))
 
-bfs(graph, 1, visited)
+for i in range(n):
+    for j in range(m):
+        if ice[i][j] == 0 and not visited[i][j]:
+            bfs(ice, i, j, visited)
+            count += 1
+
+print(count)

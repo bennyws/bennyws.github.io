@@ -8,12 +8,12 @@ import sys
 input = sys.stdin.readline
 
 
-def bfs(ice, x, y, visited):
+def bfs(ice, x, y):
     global n, m
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
     queue = deque([(x, y)])
-    visited[x][y] = True
+    ice[x][y] = 1
 
     while queue:
         a, b = queue.popleft()
@@ -23,14 +23,13 @@ def bfs(ice, x, y, visited):
             ny = b + dy[i]
             if nx < 0 or ny < 0 or nx >= n or ny >= m:
                 continue
-            elif not visited[nx][ny] and ice[nx][ny] == 0:
+            elif ice[nx][ny] == 0:
                 queue.append((nx, ny))
-                visited[nx][ny] = True
+                ice[nx][ny] = 1
 
 
 n, m = map(int, input().split())  # n : 세로길이 m : 가로길이
 ice = []
-visited = [[False] * m for _ in range(n)]
 count = 0
 
 for _ in range(n):
@@ -38,8 +37,8 @@ for _ in range(n):
 
 for i in range(n):
     for j in range(m):
-        if ice[i][j] == 0 and not visited[i][j]:
-            bfs(ice, i, j, visited)
+        if ice[i][j] == 0:
+            bfs(ice, i, j)
             count += 1
 
 print(count)

@@ -1,5 +1,5 @@
 # answer.py
-# 5-4 미로 탈출
+# DFS/BFS 연습 - 2606 바이러스
 
 # ---------------------------
 
@@ -7,42 +7,31 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-n, m = map(int, input().split())  # n = 세로길이 m = 가로길이
-gamemap = []
-visited = [[False] * m for _ in range(n)]
-count = 0
+def bfs(graph, n, visited):
+    visited[n] = True
+    queue = deque([n])
+    count = 1
+    
+    while queue:
+        v = queue.popleft()
+        
+        for i in graph[v]:
+            if not visited[i]:
+                visited[i] = True
+                queue.append(i)
+                count += 1
+    
+    return count
+
+com_num = int(input())
+n = int(input())
+graph = [[] for _ in range(com_num+1)]
+visited = [False] * (com_num+1)
 
 for _ in range(n):
-    gamemap.append(list(map(int, input().rstrip())))
+    num1, num2 = map(int, input().split())
+    graph[num1].append(num2)
+    graph[num2].append(num1)
 
-
-def bfs(gamemap, x, y, visited):
-    global count
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-    queue = deque((x, y))
-    visited[x][y] = True
-
-    while queue:
-        a, b = queue.popleft()
-        print(a, b)
-        count += 1
-
-        for i in range(4):
-            tmp = 0
-            nx = a + dx[i]
-            ny = b + dy[i]
-
-            if nx < 0 or ny < 0 or nx >= n or ny >= m:
-                continue
-            elif not visited[nx][ny] and gamemap[nx][ny] == 1:
-                visited[nx][ny] = True
-                queue.append([(nx, ny)])
-                tmp += 1
-
-            if tmp == 0:
-                count -= 1
-
-
-bfs(gamemap, 0, 0, visited)
+count = bfs(graph, 1, visited)
 print(count)

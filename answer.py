@@ -7,31 +7,28 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-def bfs(graph, n, visited):
+def dfs(graph, n, visited):
     visited[n] = True
-    queue = deque([n])
-    count = 1
-    
-    while queue:
-        v = queue.popleft()
-        
-        for i in graph[v]:
-            if not visited[i]:
-                visited[i] = True
-                queue.append(i)
-                count += 1
-    
-    return count
+
+    for i in graph[n]:
+        if not visited[i]:
+            dfs(graph, i, visited)
 
 com_num = int(input())
 n = int(input())
 graph = [[] for _ in range(com_num+1)]
 visited = [False] * (com_num+1)
+count = 0
 
 for _ in range(n):
     num1, num2 = map(int, input().split())
     graph[num1].append(num2)
     graph[num2].append(num1)
 
-count = bfs(graph, 1, visited)
-print(count)
+dfs(graph, 1, visited)
+
+for i in visited:
+    if visited[i]:
+        count += 1
+
+print(count-1)

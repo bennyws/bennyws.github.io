@@ -1,5 +1,5 @@
 # answer.py
-# DFS/BFS 연습 - 2606 바이러스
+# DFS/BFS 연습 - 1260 DFS와 BFS
 
 # ---------------------------
 
@@ -7,28 +7,49 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
+
+def init_visited():
+    visited = [False] * (n+1)
+
+    return visited
+
+
 def dfs(graph, n, visited):
     visited[n] = True
+    print(n, end=' ')
 
     for i in graph[n]:
         if not visited[i]:
             dfs(graph, i, visited)
 
-com_num = int(input())
-n = int(input())
-graph = [[] for _ in range(com_num+1)]
-visited = [False] * (com_num+1)
-count = 0
 
-for _ in range(n):
+def bfs(graph, n, visited):
+    visited[n] = True
+    queue = deque([n])
+
+    while queue:
+        v = queue.popleft()
+        print(v, end=' ')
+
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+
+
+n, m, v = map(int, input().split())  # n = 정점의 개수 m = 간선의 개수 v = 탐색 시작 번호
+graph = [[] for _ in range(n+1)]
+
+for _ in range(m):
     num1, num2 = map(int, input().split())
     graph[num1].append(num2)
     graph[num2].append(num1)
 
-dfs(graph, 1, visited)
+for i in range(1, n+1):
+    graph[i].sort()
 
-for i in visited:
-    if visited[i]:
-        count += 1
-
-print(count-1)
+visited = init_visited()
+dfs(graph, v, visited)
+print()
+visited = init_visited()
+bfs(graph, v, visited)

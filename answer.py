@@ -3,22 +3,35 @@
 
 # ---------------------------
 
+from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-def dfs(board, x, y, visited):
+def bfs(board, x, y, visited):
     global count
-    if x < 0 or y < 0 or x >= n or y >= n:
-        return
 
-    if board[x][y] == 1 and not visited[x][y]:
-        visited[x][y] = True
-        count += 1
-        dfs(board, x-1, y, visited)
-        dfs(board, x, y-1, visited)
-        dfs(board, x+1, y, visited)
-        dfs(board, x, y+1, visited)
+    queue = deque()
+    queue.append((x, y))
+
+    visited[x][y] = True
+    count += 1
+
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+
+    while queue:
+        a, b = queue.popleft()
+        for i in range(4):
+            nx = a + dx[i]
+            ny = b + dy[i]
+
+            if nx < 0 or ny < 0 or nx >= n or ny >= n:
+                continue
+            elif not visited[nx][ny] and board[nx][ny] == 1:
+                queue.append((nx, ny))
+                visited[nx][ny] = True
+                count += 1
 
 
 n = int(input())
@@ -35,7 +48,7 @@ for _ in range(n):
 for i in range(n):
     for j in range(n):
         if board[i][j] == 1 and not visited[i][j]:
-            dfs(board, i, j, visited)
+            bfs(board, i, j, visited)
             c.append(count)
             count = 0
             num += 1

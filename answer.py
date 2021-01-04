@@ -1,55 +1,46 @@
 # answer.py
-# DFS/BFS 연습 - 1260 DFS와 BFS
+# DFS/BFS 연습 - 2667 단지번호붙이기
 
 # ---------------------------
 
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-def init_visited():
-    visited = [False] * (n+1)
+def dfs(board, x, y, visited):
+    global count
+    if x < 0 or y < 0 or x >= n or y >= n:
+        return
 
-    return visited
-
-
-def dfs(graph, n, visited):
-    visited[n] = True
-    print(n, end=' ')
-
-    for i in graph[n]:
-        if not visited[i]:
-            dfs(graph, i, visited)
-
-
-def bfs(graph, n, visited):
-    visited[n] = True
-    queue = deque([n])
-
-    while queue:
-        v = queue.popleft()
-        print(v, end=' ')
-
-        for i in graph[v]:
-            if not visited[i]:
-                queue.append(i)
-                visited[i] = True
+    if board[x][y] == 1 and not visited[x][y]:
+        visited[x][y] = True
+        count += 1
+        dfs(board, x-1, y, visited)
+        dfs(board, x, y-1, visited)
+        dfs(board, x+1, y, visited)
+        dfs(board, x, y+1, visited)
 
 
-n, m, v = map(int, input().split())  # n = 정점의 개수 m = 간선의 개수 v = 탐색 시작 번호
-graph = [[] for _ in range(n+1)]
+n = int(input())
+board = []
+visited = [[False] * n for _ in range(n)]
+count = 0
+num = 0
+c = []
 
-for _ in range(m):
-    num1, num2 = map(int, input().split())
-    graph[num1].append(num2)
-    graph[num2].append(num1)
 
-for i in range(1, n+1):
-    graph[i].sort()
+for _ in range(n):
+    board.append(list(map(int, input().rstrip())))
 
-visited = init_visited()
-dfs(graph, v, visited)
-print()
-visited = init_visited()
-bfs(graph, v, visited)
+for i in range(n):
+    for j in range(n):
+        if board[i][j] == 1 and not visited[i][j]:
+            dfs(board, i, j, visited)
+            c.append(count)
+            count = 0
+            num += 1
+
+print(num)
+c.sort()
+for i in c:
+    print(i)

@@ -3,30 +3,21 @@
 
 # ---------------------------
 
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-def bfs(field, x, y, visited):
-    visited[x][y] = True
-    queue = deque()
-    queue.append([x, y])
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
+def dfs(field, x, y, visited):
+    if x < 0 or y < 0 or x >= n or y >= m:
+        return
 
-    while queue:
-        x, y = queue.popleft()
+    if not visited[x][y] and field[x][y] == 1:
+        visited[x][y] = True
 
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if nx < 0 or ny < 0 or nx >= n or ny >= m:
-                continue
-            elif field[nx][ny] == 1 and not visited[nx][ny]:
-                visited[nx][ny] = True
-                queue.append([nx, ny])
+        dfs(field, x-1, y, visited)
+        dfs(field, x+1, y, visited)
+        dfs(field, x, y-1, visited)
+        dfs(field, x, y+1, visited)
 
 
 T = int(input())  # T = 테스트 케이스의 개수
@@ -44,7 +35,7 @@ for _ in range(T):
     for i in range(n):
         for j in range(m):
             if field[i][j] == 1 and not visited[i][j]:
-                bfs(field, i, j, visited)
+                dfs(field, i, j, visited)
                 count += 1
 
     print(count)

@@ -1,41 +1,44 @@
 # answer.py
-# DFS/BFS 연습 - 1012 유기농 배추
+# DFS/BFS 연습 - 2178 미로 탐색
 
 # ---------------------------
 
+from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-def dfs(field, x, y, visited):
-    if x < 0 or y < 0 or x >= n or y >= m:
-        return
+def bfs(field, x, y):
+    queue = deque()
+    queue.append([x, y])
 
-    if not visited[x][y] and field[x][y] == 1:
-        visited[x][y] = True
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
 
-        dfs(field, x-1, y, visited)
-        dfs(field, x+1, y, visited)
-        dfs(field, x, y-1, visited)
-        dfs(field, x, y+1, visited)
+    while queue:
+        x, y = queue.popleft()
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                continue
+            elif field[nx][ny] == 1:
+                queue.append([nx, ny])
+                field[nx][ny] = field[x][y] + 1
 
 
-T = int(input())  # T = 테스트 케이스의 개수
+n, m = map(int, input().split())  # n = 세로길이 m = 가로길이
+field = []
+visited = [[False] * m for _ in range(n)]
 
-for _ in range(T):
-    m, n, k = map(int, input().split())  # m = 가로 n = 세로 k = 배추개수
-    field = [[0] * m for _ in range(n)]
-    visited = [[False] * m for _ in range(n)]
-    count = 0
+for _ in range(n):
+    field.append(list(map(int, input().rstrip())))
 
-    for _ in range(k):
-        a, b = map(int, input().split())
-        field[b][a] = 1
+bfs(field, 0, 0)
 
-    for i in range(n):
-        for j in range(m):
-            if field[i][j] == 1 and not visited[i][j]:
-                dfs(field, i, j, visited)
-                count += 1
+print(field[n-1][m-1])
+print(field)
 
-    print(count)
+

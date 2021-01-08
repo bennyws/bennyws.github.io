@@ -1,44 +1,25 @@
 # answer.py
-# DFS/BFS 연습 - 2178 미로 탐색
+# 퀵 정렬 연습 1
 
 # ---------------------------
 
-from collections import deque
 import sys
 input = sys.stdin.readline
 
-
-def bfs(field, x, y):
-    queue = deque()
-    queue.append([x, y])
-
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-
-    while queue:
-        x, y = queue.popleft()
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if nx < 0 or ny < 0 or nx >= n or ny >= m:
-                continue
-            elif field[nx][ny] == 1:
-                queue.append([nx, ny])
-                field[nx][ny] = field[x][y] + 1
+array = [5, 7, 9, 0, 3, 1, 6, 2, 4, 8]
 
 
-n, m = map(int, input().split())  # n = 세로길이 m = 가로길이
-field = []
-visited = [[False] * m for _ in range(n)]
+def quick_sort(array):
+    if len(array) <= 1:
+        return array
 
-for _ in range(n):
-    field.append(list(map(int, input().rstrip())))
+    pivot = array[0]
+    tail = array[1:]
 
-bfs(field, 0, 0)
+    left = [i for i in tail if i < pivot]
+    right = [i for i in tail if i >= pivot]
 
-print(field[n-1][m-1])
-print(field)
+    return quick_sort(left) + [pivot] + quick_sort(right)
 
 
+print(quick_sort(array))

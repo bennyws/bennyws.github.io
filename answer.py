@@ -1,23 +1,18 @@
 # answer.py
-# 6-4 두 배열의 원소 교체
+# 정렬 연습 - 2750 수 정렬하기
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-n, k = map(int, input().split())
+n = int(input())
+array = []
 
-a = list(map(int, input().split()))
-b = list(map(int, input().split()))
+for _ in range(n):
+    array.append(int(input()))
 
-a.sort()
-b.sort(reverse=True)
+array.sort()
 
-for i in range(k):
-    if a[i] < b[i]:
-        a[i] = b[i]
-    else:
-        break
-
-print(sum(a))
+for i in range(n):
+    print(array[i])

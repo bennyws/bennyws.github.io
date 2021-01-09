@@ -1,20 +1,39 @@
 # answer.py
-# 정렬 연습 - 10989 수 정렬하기 3
+# 정렬 연습 - 2108 통계학
 
 # ---------------------------
 
+from collections import Counter
+import math
 import sys
 input = sys.stdin.readline
 
+
+def modefinder(array):
+    c = Counter(array)
+    order = c.most_common()
+    maximum = order[0][1]
+
+    modes = []
+    for num in order:
+        if num[1] == maximum:
+            modes.append(num[0])
+
+    if len(modes) > 1:
+        return modes[1]
+    else:
+        return modes[0]
+
+
 n = int(input())
-array = [0 for _ in range(10001)]
+array = []
 
 for _ in range(n):
-    input_data = int(input())
-    array[input_data] += 1
+    array.append(int(input()))
 
+array.sort()
 
-for i in range(10001):
-    if array[i] != 0:
-        for _ in range(array[i]):
-            print(i)
+print(round(sum(array)/n))
+print(array[math.floor(n/2)])
+print(modefinder(array))
+print(max(array)-min(array))

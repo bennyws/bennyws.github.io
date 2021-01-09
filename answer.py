@@ -9,11 +9,12 @@ input = sys.stdin.readline
 n = int(input())
 array = []
 
-while n > 0:
-    array.append(n % 10)
-    n //= 10
+for _ in range(n):
+    input_num = input().split()
+    array.append((int(input_num[0]), int(input_num[1])))
 
-array.sort(reverse=True)
+array.sort()
+array.sort(key=lambda number: number[1])
 
-for num in array:
-    print(num, end='')
+for a, b in array:
+    print(a, b)

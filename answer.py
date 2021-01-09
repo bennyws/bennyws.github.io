@@ -1,19 +1,23 @@
 # answer.py
-# 6-3 성적이 낮은 순서로 학생 출력하기
+# 6-4 두 배열의 원소 교체
 
 # ---------------------------
 
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-array = []
+n, k = map(int, input().split())
 
-for _ in range(n):
-    input_data = input().split()
-    array.append((input_data[0], int(input_data[1])))
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
 
-array.sort(key=lambda student: student[1])
+a.sort()
+b.sort(reverse=True)
 
-for student in array:
-    print(student[0], end=' ')
+for i in range(k):
+    if a[i] < b[i]:
+        a[i] = b[i]
+    else:
+        break
+
+print(sum(a))

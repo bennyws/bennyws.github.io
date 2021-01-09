@@ -1,5 +1,5 @@
 # answer.py
-# 6-2 위에서 아래로
+# 6-3 성적이 낮은 순서로 학생 출력하기
 
 # ---------------------------
 
@@ -9,10 +9,11 @@ input = sys.stdin.readline
 n = int(input())
 array = []
 
-for i in range(n):
-    array.append(int(input()))
+for _ in range(n):
+    input_data = input().split()
+    array.append((input_data[0], int(input_data[1])))
 
-array.sort(reverse=True)
+array.sort(key=lambda student: student[1])
 
-for i in range(n):
-    print(array[i], end=' ')
+for student in array:
+    print(student[0], end=' ')

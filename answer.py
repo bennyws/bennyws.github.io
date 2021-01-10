@@ -1,127 +1,154 @@
 # answer.py
-# 3190 뱀
+# 14503 로봇 청소기
 
 # ---------------------------
 
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-# 뱀 머리위치 반환
-def snakeHead(snakeBody):
-    snakeHead = snakeBody[len(snakeBody)-1]
-    x = snakeHead[0]
-    y = snakeHead[1]
+# 블록 체크
+def checkBlock(i, j):
+    if array[i][j] == 1:  # 벽
+        return 1
+    elif array[i][j] == 2:  # 이미 청소
+        return 2
+    elif array[i][j] == 0:  # 청소안됨
+        return 0
 
-    return x, y
+
+# 왼쪽 탐색
+def searchLeft():
+    global robot, d
+    i = robot[0]
+    j = robot[1]
+
+    if d == 0:  # North
+        return checkBlock(i, j-1)
+    elif d == 1:  # East
+        return checkBlock(i-1, j)
+    elif d == 2:  # South
+        return checkBlock(i, j+1)
+    elif d == 3:  # West
+        return checkBlock(i+1, j)
 
 
-# 게임종료시 False 반환
-def isGameOver(snakeBody):
-    x, y = snakeHead(snakeBody)
-    sb = snakeBody.copy()
-    sb.pop()
+# 뒤쪽 탐색
+def searchBack():
+    global robot, d
+    i = robot[0]
+    j = robot[1]
 
-    if x < 0 or y < 0 or x >= n or y >= n:
+    if d == 0:  # North
+        return checkBlock(i+1, j)
+    elif d == 1:  # East
+        return checkBlock(i, j-1)
+    elif d == 2:  # South
+        return checkBlock(i-1, j)
+    elif d == 3:  # West
+        return checkBlock(i, j+1)
+
+
+# 주변 청소 확인
+def isClean():
+    global robot
+    i = robot[0]
+    j = robot[1]
+
+    if checkBlock(i+1, j) == 2 and checkBlock(i-1, j) == 2 and checkBlock(i, j+1) == 2 and checkBlock(i, j-1) == 2:
         return True
-
-    for nx, ny in sb:
-        if nx == x and ny == y:
-            return True
-
-    return False
-
-
-# 머리위치에 사과가 있는지 확인
-def isApple(apple, snakeBody):
-    x, y = snakeHead(snakeBody)
-
-    for ax, ay in apple:
-        if x == ax and y == ay:
-            apple.remove((ax, ay))  # 해당 사과 제거
-            return True
-
-    return False
-
-
-# 뱀 움직이기
-def moveSnake(snakeBody, direction):
-    x, y = snakeHead(snakeBody)  # 현재 머리위치
-
-    if direction == 'up':
-        snakeBody.append((x, y-1))
-    elif direction == 'down':
-        snakeBody.append((x, y+1))
-    elif direction == 'left':
-        snakeBody.append((x-1, y))
-    elif direction == 'right':
-        snakeBody.append((x+1, y))
     else:
-        print('move Error!')
-        return
+        return False
 
-    if isGameOver(snakeBody):  # 게임 종료 체크
-        return
 
-    if not isApple(apple, snakeBody):  # 사과와 닿았는지 체크
-        snakeBody.popleft()
+# 왼쪽으로 회전
+def turnLeft(d):
+    return (d-1 + 4) % 4
+
+
+# 해당 칸 청소
+def cleanBlock():
+    global robot, count
+
+    if array[robot[0]][robot[1]] != 2:
+        array[robot[0]][robot[1]] = 2
+        count += 1
 
     return
 
 
-# 진행방향 변경
-def changeDirection(cmd, direction):
-    direct = ['up', 'right', 'down', 'left']
-    i = direct.index(direction)
+# 전진
+def goRobot():
+    global robot, d
+    i = robot[0]
+    j = robot[1]
 
-    if cmd == 'D':
-        i += 1
-        i %= 4
-    elif cmd == 'L':
-        i -= 1
+    if d == 0:  # North
+        robot = [i-1, j]
+    elif d == 1:  # East
+        robot = [i, j+1]
+    elif d == 2:  # South
+        robot = [i+1, j]
+    elif d == 3:  # West
+        robot = [i, j-1]
+    return
+
+
+# 후진
+def backRobot():
+    global robot, d
+    i = robot[0]
+    j = robot[1]
+
+    if d == 0:  # North
+        robot = [i+1, j]
+    elif d == 1:  # East
+        robot = [i, j-1]
+    elif d == 2:  # South
+        robot = [i-1, j]
+    elif d == 3:  # West
+        robot = [i, j+1]
+    return
+
+
+# 주변 탐색
+def searchMap():
+    global robot, d
+
+    for i in range(4):
+        result = searchLeft()
+
+        if result == 0:
+            d = turnLeft(d)
+            goRobot()
+            return True
+        else:
+            d = turnLeft(d)
+            continue
+
+    if searchBack() == 1:
+        return False
     else:
-        print('cmd Error!')
-        return
-
-    return direct[i]
+        backRobot()
+        return True
 
 
 # 정보 입력
-n = int(input())  # n = 보드의 크기
-k = int(input())  # k = 사과의 개수
+n, m = map(int, input().split())  # n : 세로 크기 m : 가로 크기
+r, c, d = map(int, input().split())  # r : 북쪽으로부터 칸수 c : 서쪽 d : 방향
 
-apple = []
-move = []
+array = []
+robot = [r, c]  # 초기좌표
+canClean = True
+count = 0
 
-for _ in range(k):  # 사과 위치 입력
-    input_num = input().split()
-    apple.append((int(input_num[1])-1, int(input_num[0])-1))
-
-L = int(input())  # L = 뱀의 방향 변환 횟수
-
-for _ in range(L):  # 뱀 방향 변환 정보 입력
-    input_num = input().split()
-    move.append((int(input_num[0]), input_num[1]))
+for _ in range(n):
+    array.append(list(map(int, input().split())))
 
 
-# 초기 정보 설정
-time = 0  # t = 게임진행시간
-direction = 'right'  # 뱀의 진행방향
-snakeBody = deque()  # 뱀의 몸이 위치한 좌표
+# 청소 시작
+while canClean:
+    cleanBlock()
+    canClean = searchMap()
 
-snakeBody.append((0, 0))  # 최초 좌표 추가
-
-
-# 게임진행
-while not isGameOver(snakeBody):
-    time += 1
-    moveSnake(snakeBody, direction)
-
-    for ctime, cmd in move:
-        if time == ctime:
-            direction = changeDirection(cmd, direction)
-
-
-# 게임 종료시간 출력
-print(time)
+print(count)
